@@ -20,6 +20,7 @@ RUN set -ex; \
                 libxml2-dev \
                 php-soap \
                 libxslt-dev \
+                libpq-dev \
         ; \
         rm -rf /var/lib/apt/lists/*; \
         \
