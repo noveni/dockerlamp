@@ -21,6 +21,7 @@ RUN set -ex; \
                 php-soap \
                 libxslt-dev \
                 libpq-dev \
+                libpspell-dev \
         ; \
         rm -rf /var/lib/apt/lists/*; \
         \
@@ -43,11 +44,13 @@ RUN set -ex; \
                                 pgsql \
                                 pspell \
                                 soap \
+                                sockets \
                                 opcache \
                                 sysvmsg \
                                 sysvsem \
                                 sysvshm \
                                 wddx \
+                                xsl \
                                 xml \
                                 xmlrpc \
                                 zip \
