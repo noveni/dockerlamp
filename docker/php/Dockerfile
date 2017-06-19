@@ -22,6 +22,7 @@ RUN set -ex; \
                 libxslt-dev \
                 libpq-dev \
                 libpspell-dev \
+                libxslt-dev \
         ; \
         rm -rf /var/lib/apt/lists/*; \
         \
