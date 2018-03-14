@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+    httpd:
+        container_name: dockerlamp_httpd_1
+        image: httpd:2.4.25
+        restart: always
+        environment:
+            - APACHE_LOG_DIR=/usr/local/apache2/logs
+        ports:
+            - "${HTTP_PORT}:80"
+        volumes:
+            - ${DOCKER_STACK_DIR}/apache/httpd.conf:/usr/local/apache2/conf/httpd.conf
+            - ${DOCKER_STACK_DIR}/apache/vhosts/:/usr/local/apache2/conf/vhosts
+            - ${ROOT_DIR}/www:/var/www
+        links:
+            - php
+        depends_on:
+            - php
+
+    php:
+        container_name: dockerlamp_php_1
+        restart: always
+        build: ${DOCKER_STACK_DIR}/php/
+        expose:
+            - 9000
+        volumes:
+            - ${ROOT_DIR}/www:/var/www
+        links:
+            - db
+
+    db:
+        container_name: dockerlamp_mysql_1
+        restart: always
+        image: mysql:5.6.36
+        expose:
+            - 3306
+        volumes:
+            - dbdata:/var/lib/mysql
+            - ${DOCKER_STACK_DIR}/mysql/conf-mysql.cnf:/etc/mysql/mysql.conf.d/conf-mysql.cnf:ro
+        environment:
+            MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+            MYSQL_DATABASE: "${MYSQL_DATABASE}"
+            MYSQL_USER: "${MYSQL_USER}"
+            MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+
+    phpmyadmin:
+        container_name: dockerlamp_phpmyadmin_1
+        image: phpmyadmin/phpmyadmin
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+        ports:
+            - "${PHPMYADMIN_PORT}:80"
+        links:
+            - db
+        depends_on:
+            - db
+volumes:
+    dbdata:
