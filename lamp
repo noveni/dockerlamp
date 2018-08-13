@@ -23,6 +23,14 @@ fi
 DOCKERCOMPOSE="docker-compose --file $DOCKER_STACK_DIR/docker-compose.yml"
 if [ $# -gt 0 ]; then
     case $1 in
+        install)
+            chmod +x lamp
+            echo
+            echo "Making executable script"
+            # Building Docker stack
+            ./lamp hello
+            ./lamp build
+        ;;
         hello)
             echo "Hello Boy"
         ;;
@@ -47,6 +55,13 @@ if [ $# -gt 0 ]; then
         bash)
             echo "Exposing bash of php container"
             $DOCKERCOMPOSE exec php bash
+        ;;
+        abash)
+            echo "Exposing bash of php container"
+            $DOCKERCOMPOSE exec php bash
+        ;;
+        node)
+            $DOCKERCOMPOSE run --rm node bash
         ;;
         ip)
             echo "Front: "
